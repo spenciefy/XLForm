@@ -113,7 +113,7 @@ NSString *const XLFormTextViewLengthPercentage = @"textViewLengthPercentage";
     self.textView.placeHolderLabel.font = self.textView.font;
     self.textView.delegate = self;
     self.textView.keyboardType = UIKeyboardTypeDefault;
-    self.textView.text = self.rowDescriptor.value;
+    self.textView.text = [self.rowDescriptor displayTextValue];
     [self.textView setEditable:!self.rowDescriptor.isDisabled];
     self.textView.textColor  = self.rowDescriptor.isDisabled ? [UIColor grayColor] : [UIColor blackColor];
     self.textView.font = [UIFont fontWithName:@"AvenirNext-Regular" size:18.f];
