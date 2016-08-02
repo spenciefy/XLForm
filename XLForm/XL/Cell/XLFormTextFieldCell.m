@@ -144,13 +144,13 @@ NSString *const XLFormTextFieldLengthPercentage = @"textFieldLengthPercentage";
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
         self.textField.keyboardType = UIKeyboardTypeDefault;
     }
-
+    
     self.textLabel.text = ((self.rowDescriptor.required && self.rowDescriptor.title && self.rowDescriptor.sectionDescriptor.formDescriptor.addAsteriskToRequiredRowsTitle) ? [NSString stringWithFormat:@"%@*", self.rowDescriptor.title] : self.rowDescriptor.title);
-
+    
     self.textField.text = self.rowDescriptor.value ? [self.rowDescriptor displayTextValue] : self.rowDescriptor.noValueDisplayText;
     [self.textField setEnabled:!self.rowDescriptor.isDisabled];
-    self.textField.textColor = self.rowDescriptor.isDisabled ? [UIColor grayColor] : [UIColor blackColor];
-    self.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    self.textField.textColor = [UIColor blackColor];
+    self.textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:18.f];
 }
 
 -(BOOL)formDescriptorCellCanBecomeFirstResponder
@@ -198,17 +198,17 @@ NSString *const XLFormTextFieldLengthPercentage = @"textFieldLengthPercentage";
     NSMutableArray * result = [[NSMutableArray alloc] init];
     [self.textLabel setContentHuggingPriority:500 forAxis:UILayoutConstraintAxisHorizontal];
     [self.textLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-
+    
     // Add Constraints
     [result addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(margin)-[_textField]-(margin)-|"
                                                                         options:NSLayoutFormatAlignAllBaseline
-                                                                        metrics:[NSDictionary dictionaryWithObjectsAndKeys:@(11.0), @"margin", nil]
+                                                                        metrics:[NSDictionary dictionaryWithObjectsAndKeys:@(15.0), @"margin", nil]
                                                                           views:NSDictionaryOfVariableBindings(_textField)]];
     [result addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(margin)-[_textLabel]-(margin)-|"
                                                                         options:NSLayoutFormatAlignAllBaseline
-                                                                        metrics:[NSDictionary dictionaryWithObjectsAndKeys:@(11.0), @"margin", nil]
+                                                                        metrics:[NSDictionary dictionaryWithObjectsAndKeys:@(15.0), @"margin", nil]
                                                                           views:NSDictionaryOfVariableBindings(_textLabel)]];
-
+    
     return result;
 }
 
@@ -221,7 +221,7 @@ NSString *const XLFormTextFieldLengthPercentage = @"textFieldLengthPercentage";
     if (self.imageView.image){
         views[@"image"] = self.imageView;
         if (self.textLabel.text.length > 0){
-            self.dynamicCustomConstraints = [NSMutableArray arrayWithArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[image]-[label]-[textField]-|" options:0 metrics:nil views:views]];
+            self.dynamicCustomConstraints = [NSMutableArray arrayWithArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[image]-(margin)-[label]-[textField]-|" options:0 metrics:[NSDictionary dictionaryWithObjectsAndKeys:@(15.0), @"margin", nil] views:views]];
             [self.dynamicCustomConstraints addObject:[NSLayoutConstraint constraintWithItem:_textField
                                                                                   attribute:NSLayoutAttributeWidth
                                                                                   relatedBy:self.textFieldLengthPercentage ? NSLayoutRelationEqual : NSLayoutRelationGreaterThanOrEqual
@@ -231,7 +231,7 @@ NSString *const XLFormTextFieldLengthPercentage = @"textFieldLengthPercentage";
                                                                                    constant:0.0]];
         }
         else{
-            self.dynamicCustomConstraints = [NSMutableArray arrayWithArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[image]-[textField]-|" options:0 metrics:nil views:views]];
+            self.dynamicCustomConstraints = [NSMutableArray arrayWithArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[image]-(margin)-[textField]-|" options:0 metrics:[NSDictionary dictionaryWithObjectsAndKeys:@(15.0), @"margin", nil] views:views]];
         }
     }
     else{
@@ -249,7 +249,7 @@ NSString *const XLFormTextFieldLengthPercentage = @"textFieldLengthPercentage";
             self.dynamicCustomConstraints = [NSMutableArray arrayWithArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[textField]-|" options:0 metrics:nil views:views]];
         }
     }
-
+    
     [self.contentView addConstraints:self.dynamicCustomConstraints];
     [super updateConstraints];
 }
@@ -331,7 +331,7 @@ NSString *const XLFormTextFieldLengthPercentage = @"textFieldLengthPercentage";
         if (!didUseFormatter)
         {
             if ([self.rowDescriptor.rowType isEqualToString:XLFormRowDescriptorTypeNumber] || [self.rowDescriptor.rowType isEqualToString:XLFormRowDescriptorTypeDecimal]){
-                self.rowDescriptor.value =  [NSDecimalNumber decimalNumberWithString:self.textField.text locale:NSLocale.currentLocale];
+                self.rowDescriptor.value =  [NSDecimalNumber decimalNumberWithString: self.textField.text];
             } else if ([self.rowDescriptor.rowType isEqualToString:XLFormRowDescriptorTypeInteger]){
                 self.rowDescriptor.value = @([self.textField.text integerValue]);
             } else {
