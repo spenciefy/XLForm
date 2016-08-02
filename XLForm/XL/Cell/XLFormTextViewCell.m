@@ -116,6 +116,7 @@ NSString *const XLFormTextViewLengthPercentage = @"textViewLengthPercentage";
     self.textView.text = self.rowDescriptor.value;
     [self.textView setEditable:!self.rowDescriptor.isDisabled];
     self.textView.textColor  = self.rowDescriptor.isDisabled ? [UIColor grayColor] : [UIColor blackColor];
+    self.textView.font = [UIFont fontWithName:@"AvenirNext-Regular" size:18.f];
     self.textLabel.text = ((self.rowDescriptor.required && self.rowDescriptor.title && self.rowDescriptor.sectionDescriptor.formDescriptor.addAsteriskToRequiredRowsTitle) ? [NSString stringWithFormat:@"%@*", self.rowDescriptor.title]: self.rowDescriptor.title);
 }
 
